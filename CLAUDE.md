@@ -10,15 +10,9 @@ Internal tool for a data engineering team.
 - Backend: FastAPI (Python 3.11+)
 - Frontend: React 18 + Vite + TypeScript (future sessions)
 
-## Commands
-
-cd backend && poetry install # install all deps
-cd backend && poetry run uvicorn main:app --reload --port 8000 # dev server
-cd backend && poetry add <package> # add a dependency
-
 ## Monorepo Layout
 
-agentic-de/
+agentic-data-engineer-platform/
 frontend/ # Future sessions
 backend/ # FastAPI — building now
 .env # Never committed
@@ -56,6 +50,14 @@ DQ Enhancement, Data Backfill
   hint at the fix. Let me try first.
 - When I say "I'm stuck", show me the answer and explain each line.
 
+## Commands
+
+cd backend && poetry install # install all deps
+cd backend && poetry run uvicorn main:app --reload --port 8000 # dev server
+cd backend && poetry add <package> # add a dependency
+cd frontend && npm run dev # frontend dev server (future)
+cd frontend && npx tsc --noEmit # type check (future)
+
 ## Rules
 
 - Type everything — no `Any` or untyped `dict` returns
@@ -64,5 +66,10 @@ DQ Enhancement, Data Backfill
 
 ## What Claude Gets Wrong — Guard Against This
 
+- Do not use the deprecated /rest/api/3/search endpoint
+- Do not use requests library — use httpx with AsyncClient
+- Do not hardcode Jira field paths without null-safe access
+- Do not return raw Jira JSON to the frontend — always map through Pydantic models
+- Do not create files outside the current session's declared scope
 - Do not use pip install — use poetry add for dependencies
-- Do not create requirements.txt — use pyproject.toml via poetry
+- Do not create requirements.txt — use pyproject.toml via Poetry
