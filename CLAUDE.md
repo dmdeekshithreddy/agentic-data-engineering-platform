@@ -1,33 +1,29 @@
-# Agentic DE Platform — CLAUDE.md
+# Agentic Data Engineering Platform — CLAUDE.md
 
 ## What This Is
 
 Enterprise multi-agent platform automating Jira story → validated GitHub PR.
-Internal tool for a data engineering team. Not a chatbot.
+Internal tool for a data engineering team.
 
 ## Stack
 
-- Frontend: React 18 + Vite + TypeScript (no Next.js)
 - Backend: FastAPI (Python 3.11+)
-- Database: PostgreSQL with pgvector
-- Styling: shadcn/ui + Tailwind CSS (custom theme tokens)
-- State: Zustand
-- Tables: TanStack Table v8
-- DAG: React Flow + dagre
+- Frontend: React 18 + Vite + TypeScript (future sessions)
 
 ## Monorepo Layout
 
 agentic-de/
-frontend/ # React + Vite + TypeScript
-backend/ # FastAPI
-db/ # Migrations (Alembic) — future
+frontend/ # Future sessions
+backend/ # FastAPI — building now
 .env # Never committed
-CLAUDE.md # You are reading this
+CLAUDE.md
 
-## Personas (role-based access)
+## Jira API — Critical
 
-DE (Data Engineer), BA (Business Analyst), PO (Product Owner),
-TPM (Technical Program Manager), Director/MD
+- Endpoint: POST /rest/api/3/search/jql (old /rest/api/3/search is DEPRECATED)
+- Auth: Basic Auth with base64(email:api_token)
+- Pagination: uses nextPageToken, NOT startAt offset
+- Use httpx (async), never requests
 
 ## Story Status Lifecycle — Canonical Labels
 
@@ -39,37 +35,23 @@ Awaiting Code Review → Awaiting Test Review → Awaiting Validation Review →
 Schema Change, Transformation Change, Bug Fix, New Pipeline,
 DQ Enhancement, Data Backfill
 
-## Jira API — Critical
+## Learning Mode — Active
 
-- Endpoint: POST /rest/api/3/search/jql (the old /rest/api/3/search is DEPRECATED)
-- Auth: Basic Auth with base64(email:api_token)
-- Pagination: uses nextPageToken, NOT startAt/maxResults offset
-- Always use httpx (async), never requests
+- Do NOT generate complete files. Teach me to write them.
+- Introduce ONE concept at a time. Explain WHY before showing HOW.
+- Show me the function signature and purpose. I write the body.
+- After I write code, review it. Point out what is wrong and why.
+- If I am using a tool/library for the first time (httpx, FastAPI, Pydantic),
+  explain what it does, why we chose it over alternatives, and show a
+  minimal working example before asking me to write production code.
+- Never write more than 15 lines of code in a single response.
+- Ask me to run the code after each micro-task and report what happened.
+- If something fails, do not fix it for me — explain the error and
+  hint at the fix. Let me try first.
+- When I say "I'm stuck", show me the answer and explain each line.
 
-## Commands
+## Rules
 
-cd backend && pip install -r requirements.txt
-cd backend && uvicorn main:app --reload --port 8000
-cd frontend && npm run dev
-cd frontend && npx tsc --noEmit
-
-## Rules — Never Violate
-
-- Use the exact status labels above in all code — no paraphrasing
-- Use the exact story type labels above — no paraphrasing
-- One target table per story is a hard constraint
-- Backend never exposes raw Jira credentials to the frontend
 - Type everything — no `Any` or untyped `dict` returns
-- All Pydantic models use snake_case fields with camelCase aliases for JSON
-- Always run type checks after code changes: cd backend && mypy . --ignore-missing-imports
-- No speculative refactoring outside the declared session scope
-- No inline styles in frontend — Tailwind only
-- Commit messages use conventional commits: feat(), fix(), chore()
-
-## What Claude Gets Wrong — Guard Against This
-
-- Do not use the deprecated /rest/api/3/search endpoint
-- Do not use requests library — use httpx with AsyncClient
-- Do not hardcode Jira field paths without null-safe access
-- Do not return raw Jira JSON to the frontend — always map through Pydantic models
-- Do not create files outside the current session's declared scope
+- No speculative code outside the current micro-task
+- Commit messages use conventional commits
