@@ -10,6 +10,12 @@ Internal tool for a data engineering team.
 - Backend: FastAPI (Python 3.11+)
 - Frontend: React 18 + Vite + TypeScript (future sessions)
 
+## Commands
+
+cd backend && poetry install # install all deps
+cd backend && poetry run uvicorn main:app --reload --port 8000 # dev server
+cd backend && poetry add <package> # add a dependency
+
 ## Monorepo Layout
 
 agentic-de/
@@ -55,3 +61,8 @@ DQ Enhancement, Data Backfill
 - Type everything — no `Any` or untyped `dict` returns
 - No speculative code outside the current micro-task
 - Commit messages use conventional commits
+
+## What Claude Gets Wrong — Guard Against This
+
+- Do not use pip install — use poetry add for dependencies
+- Do not create requirements.txt — use pyproject.toml via poetry
