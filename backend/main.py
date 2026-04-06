@@ -1,14 +1,16 @@
-from tracemalloc import start
-
 from fastapi import FastAPI
 import time
 import asyncio
 
+from config import Settings
+
+
 app = FastAPI()
+settings = Settings()  # Load settings from .env file
 
 @app.get("/")
 def read_root():
-    return {"message": "Agentic DE backend"}
+    return {"message": "Agentic DE backend", "jira_email": settings.JIRA_EMAIL, "jira_domain": settings.JIRA_DOMAIN}
 
 @app.get("/slow-sync")
 def slow_sync():
